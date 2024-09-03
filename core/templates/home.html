@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Tajamar Invoice{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="title">Bienvenido a Tajamar ISP</h1>
+    <p>Esta es la página inicial de tu portal.</p>
+    
+    <div x-data="{ message: 'Haz clic en el botón para cambiar el mensaje' }">
+        <p x-text="message"></p>
+        <button class="button is-primary" @click="message = '¡El mensaje ha cambiado!'">Clic aquí</button>
+    </div>
+</div>
+{% endblock %}
