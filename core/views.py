@@ -3,18 +3,37 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.conf import settings
-import os
+from loguru import logger
 
 @csrf_exempt
 def home(request):
-    if request.method == 'POST' and request.FILES.get('file'):
-        file = request.FILES['file']
-        file_name = default_storage.save(file.name, file)
-        file_url = os.path.join(settings.MEDIA_URL, file_name)
-        return HttpResponse(f'''
-            <div class="notification is-success">
-                Archivo subido exitosamente.
-            </div>
-            <img src="{file_url}" style="max-width: 300px; max-height: 300px; display: block; margin: auto;">
-        ''')
+    logger.info("Accediendo a la vista 'home'")
+    
+    if request.method == 'POST':
+        logger.info("Método POST recibido")
+        
+        if request.FILES.get('file'):
+            logger.info("Archivo recibido")
+            file = request.FILES['file']
+            
+            try:
+                file_name = default_storage.save(file.name, file)
+                file_url = f"{settings.MEDIA_URL}{file_name}"
+                logger.info(f"Archivo guardado como: {file_name}, accesible en: {file_url}")
+                
+                return render(request, 'home.html', {
+                    'file_url': file_url,
+                })
+            
+            except Exception as e:
+                logger.error(f"Error al guardar el archivo: {e}")
+                return HttpResponse(f'''
+                    <div class="notification is-danger">
+                        Error al subir el archivo.
+                    </div>
+                ''')
+        else:
+            logger.warning("No se encontró ningún archivo en la solicitud POST")
+    
+    logger.info("Renderizando la página de inicio")
     return render(request, 'home.html')

@@ -18,8 +18,6 @@ AWS_STORAGE_BUCKET_NAME = env.str(f"AWS_S3_BUCKET_NAME_{env.str('DJANGO_ENV').up
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
-logger.info(f"PRINTING DEBUG={DEBUG}")
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

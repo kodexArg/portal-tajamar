@@ -1,64 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio - Tajamar TV{% endblock %}
+{% block title %}Subir Archivo{% endblock %}
 
 {% block content %}
 <div class="content">
-    <div class="columns is-centered">
-        <div class="column is-half">
-            <div class="box">
-                <h1 class="title has-text-centered">Bienvenido a Tajamar TV</h1>
-                <p class="has-text-centered">Esta es la página inicial de tu portal.</p>
-                
-                <!-- Prueba de Alpine.js -->
-                <div class="section">
-                    <h2 class="subtitle">Prueba de Alpine.js</h2>
-                    <div x-data="{ message: 'Haz clic en el botón para cambiar el mensaje' }" class="has-text-centered">
-                        <p x-text="message"></p>
-                        <button class="button is-primary mt-2" @click="message = '¡El mensaje ha cambiado!'">Clic aquí</button>
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- Prueba de HTMX con Bulma -->
-                <div class="section">
-                    <h2 class="subtitle">Prueba de Subida de Archivos con HTMX</h2>
-                    <form id="upload-form" hx-post="/" hx-target="#upload-result" hx-swap="innerHTML" class="has-text-centered">
-                        <div class="file has-name is-centered">
-                            <label class="file-label">
-                                <input class="file-input" type="file" name="file" required>
-                                <span class="file-cta">
-                                    <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
-                                    </span>
-                                    <span class="file-label">
-                                        Elige un archivo…
-                                    </span>
-                                </span>
-                                <span class="file-name" id="file-name">
-                                    Ningún archivo seleccionado
-                                </span>
-                            </label>
-                        </div>
-                        <br>
-                        <button class="button is-primary mt-2" type="submit">Subir archivo</button>
-                    </form>
-                    <div id="upload-result" class="notification is-hidden mt-4">
-                        <!-- Resultado de la subida se mostrará aquí -->
-                    </div>
-                    <div id="uploaded-image" class="mt-5 has-text-centered">
-                        <!-- Imagen subida se mostrará aquí -->
-                    </div>
-                </div>
-
-            </div>
+    <h1 class="title has-text-centered">Subir un Archivo</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="file has-name is-centered">
+            <label class="file-label">
+                <input class="file-input" type="file" name="file" required>
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Elige un archivo…
+                    </span>
+                </span>
+                <span class="file-name" id="file-name">
+                    Ningún archivo seleccionado
+                </span>
+            </label>
         </div>
+        <br>
+        <button class="button is-primary mt-2" type="submit">Subir archivo</button>
+    </form>
+
+    {% if file_url %}
+    <div class="notification is-success mt-4">
+        Archivo subido exitosamente.
     </div>
+    <img src="{{ file_url }}" style="max-width: 300px; max-height: 300px; display: block; margin: auto;">
+    {% endif %}
 </div>
 
 <script>
-    // Mostrar el nombre del archivo seleccionado
     document.querySelector('.file-input').addEventListener('change', function() {
         const fileName = document.getElementById('file-name');
         if (this.files && this.files.length > 0) {
@@ -68,5 +46,4 @@
         }
     });
 </script>
-
 {% endblock %}

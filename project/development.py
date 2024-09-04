@@ -10,35 +10,18 @@ env.read_env()
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if DEBUG:
-    # Configuración para desarrollo local con archivos estáticos locales
     STATIC_URL = '/static/'
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
     STATICFILES_DIRS = [BASE_DIR / 'core/static']
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / 'media'
-
-    STORAGES = {
-        'default': {
-            'BACKEND': 'django.core.files.storage.FileSystemStorage',
-            'OPTIONS': {
-                'location': MEDIA_ROOT,
-            }
-        },
-        'staticfiles': {
-            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
-            'OPTIONS': {
-                'location': STATIC_ROOT,
-            }
-        },
-    }
+    logger.info(f"Using DEBUG MODE:\n - MEDIA_ROOT={MEDIA_ROOT}\n - STATICFILES_DIRS={STATICFILES_DIRS}\n")
 
 else:
-    # Configuración para desarrollo conectando a S3
+    # S3
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
-    # No necesitas STATIC_ROOT ni MEDIA_ROOT porque todo se maneja en S3
     STORAGES = {
         'default': {
             'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
@@ -54,7 +37,6 @@ else:
         }
     }
 
-# Configuración de la base de datos para el entorno de desarrollo
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -66,6 +48,5 @@ DATABASES = {
     }
 }
 
-# Añadir aplicaciones y middleware específicos para desarrollo
 INSTALLED_APPS += ['debug_toolbar']
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
