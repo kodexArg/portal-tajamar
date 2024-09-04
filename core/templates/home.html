@@ -6,11 +6,17 @@
 <div class="content">
     <h1 class="title has-text-centered">Subir un Archivo</h1>
     
-    <form method="post" enctype="multipart/form-data">
+    <form 
+        hx-post="upload/" 
+        hx-target="#upload-result" 
+        hx-swap="outerHTML"
+        enctype="multipart/form-data"
+        id="upload-form">
         {% csrf_token %}
+        
         <div class="file has-name is-centered">
             <label class="file-label">
-                <input class="file-input" type="file" name="file" required>
+                <input class="file-input" type="file" name="file" hx-trigger="change" hx-target="#file-name" hx-swap="outerHTML" required>
                 <span class="file-cta">
                     <span class="file-icon">
                         <i class="fas fa-upload"></i>
@@ -28,22 +34,7 @@
         <button class="button is-primary mt-2" type="submit">Subir archivo</button>
     </form>
 
-    {% if file_url %}
-    <div class="notification is-success mt-4">
-        Archivo subido exitosamente.
-    </div>
-    <img src="{{ file_url }}" style="max-width: 300px; max-height: 300px; display: block; margin: auto;">
-    {% endif %}
+    <!-- Lugar para mostrar el resultado de la subida -->
+    <div id="upload-result"></div>
 </div>
-
-<script>
-    document.querySelector('.file-input').addEventListener('change', function() {
-        const fileName = document.getElementById('file-name');
-        if (this.files && this.files.length > 0) {
-            fileName.textContent = this.files[0].name;
-        } else {
-            fileName.textContent = 'Ningún archivo seleccionado';
-        }
-    });
-</script>
 {% endblock %}
