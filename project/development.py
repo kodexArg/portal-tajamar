@@ -25,17 +25,20 @@ else:
     STORAGES = {
         'default': {
             'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+            'OPTIONS': {
+                'bucket_name': AWS_STORAGE_BUCKET_NAME,
+                'location': 'media',
+            },
         },
         'staticfiles': {
             'BACKEND': 'storages.backends.s3boto3.S3StaticStorage',
-        },
-        'mediafiles': {
-            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
             'OPTIONS': {
                 'bucket_name': AWS_STORAGE_BUCKET_NAME,
+                'location': 'static',
             },
-        }
+        },
     }
+
 
 DATABASES = {
     'default': {
