@@ -1,18 +1,21 @@
+from django.views import View
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.core.files.storage import default_storage
 from django.conf import settings
+from django.template.response import TemplateResponse
 from loguru import logger
 
-def home(request):
-    # Solo renderiza la página principal con el formulario
-    logger.info("Renderizando la página de inicio")
-    return render(request, 'home.html')
+class HomeView(View):
+    def get(self, request, *args, **kwargs):
+        logger.info("Renderizando la página de inicio")
+        return render(request, 'home.html')
 
-@csrf_exempt
-def upload_file(request):
-    if request.method == 'POST':
+@method_decorator(csrf_exempt, name='dispatch')
+class UploadFileView(View):
+    def post(self, request, *args, **kwargs):
         logger.info("Método POST recibido")
         
         if request.FILES.get('file'):
@@ -24,25 +27,17 @@ def upload_file(request):
                 file_url = f"{settings.MEDIA_URL}{file_name}"
                 logger.info(f"Archivo guardado como: {file_name}, accesible en: {file_url}")
                 
-                # Respuesta HTML para actualizar el estado tras la subida exitosa
-                return HttpResponse(f'''
-                    <div class="notification is-success mt-4">
-                        Archivo subido exitosamente: <a href="{file_url}" target="_blank">{file.name}</a>
-                    </div>
-                ''')
+                context = {'file_url': file_url, 'file_name': file.name}
+                return TemplateResponse(request, 'partials/success_box.html', context)
             
             except Exception as e:
                 logger.error(f"Error al guardar el archivo: {e}")
-                return HttpResponse('''
-                    <div class="notification is-danger mt-4">
-                        Error al subir el archivo.
-                    </div>
-                ''')
+                context = {'error_message': 'Error al subir el archivo.'}
+                return TemplateResponse(request, 'partials/error_box.html', context)
         else:
             logger.warning("No se encontró ningún archivo en la solicitud POST")
-            return HttpResponse('''
-                <div class="notification is-danger mt-4">
-                    No se encontró ningún archivo en la solicitud.
-                </div>
-            ''')
-    return HttpResponse(status=405)
+            context = {'error_message': 'No se encontró ningún archivo en la solicitud.'}
+            return TemplateResponse(request, 'partials/error_box.html', context)
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed(['POST'])
