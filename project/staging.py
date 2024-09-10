@@ -9,6 +9,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+# Cambios de configuración de archivos estáticos y de medios
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
@@ -29,6 +30,12 @@ STORAGES = {
     },
 }
 
+# Parámetros de almacenamiento S3 (cache de un día)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',  
+}
+
+# Base de datos para el entorno de Staging (usa las mismas variables que Development)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -38,8 +45,4 @@ DATABASES = {
         'HOST': env.str('DB_HOST'),
         'PORT': '3306',
     }
-}
-
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',  # Cache de un día
 }
