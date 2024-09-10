@@ -1,0 +1,30 @@
+<!-- templates/layouts/base.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Proyecto{% endblock %}</title>
+    {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{% static '/libs/bulma/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static '/libs/skeleton/skeleton.min.css' }">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/1.0.5/outline/heroicons.min.css">
+
+</head>
+<body>
+    <!-- Navbar -->
+    {% include "partials/navbar.html" %}
+
+    <!-- Main Content -->
+    <section class="section is-flex is-justify-content-center is-align-items-center is-fullheight" style="margin-top: 80px;">
+        <div class="container">
+            {% block layout %} -no layout- {% endblock %}
+        </div>
+    </section>
+
+    <script src="{% static '/libs/htmx/htmx.min.js' %}"></script>
+</body>
+
+
+</html>

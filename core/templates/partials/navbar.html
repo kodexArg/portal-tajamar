@@ -1,0 +1,33 @@
+<!-- templates/partials/navbar.html -->
+<nav class="navbar is-fixed-top has-shadow">
+    <div class="navbar-brand">
+        <span class="navbar-item is-size-3 has-text-weight-bold has-text-primary">
+            TAJAMAR
+        </span>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                {% if user.is_authenticated %}
+                    <span class="navbar-item has-text-weight-semibold">
+                        Bienvenido, {{ user.username }}
+                    </span>
+                    <div class="buttons">
+                        <a href="{% url 'account_logout' %}" class="button is-light">
+                            Log Out
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="buttons">
+                        <a href="{% url 'account_login' %}" class="button is-light">
+                            Log In
+                        </a>
+                        <a href="{% url 'account_signup' %}" class="button is-primary">
+                            Sign Up
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

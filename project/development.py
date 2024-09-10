@@ -10,6 +10,7 @@ env.read_env()
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if DEBUG:
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
     STATIC_URL = '/static/'
     STATICFILES_DIRS = [BASE_DIR / 'core/static']
 

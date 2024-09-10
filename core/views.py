@@ -1,19 +1,24 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 from django.core.files.storage import default_storage
 from django.conf import settings
 from django.template.response import TemplateResponse
 from loguru import logger
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
+    login_url = 'account_login'  # Redirige al login si no está autenticado
+    redirect_field_name = 'next'  # Para redirigir de vuelta después del login
+
     def get(self, request, *args, **kwargs):
         logger.info("Renderizando la página de inicio")
         return render(request, 'home.html')
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator([login_required(login_url='account_login'), csrf_exempt], name='dispatch')
 class UploadFileView(View):
     def post(self, request, *args, **kwargs):
         logger.info("Método POST recibido")

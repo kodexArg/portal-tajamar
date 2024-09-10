@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "layouts/content.html" %}
 
 {% block title %}Subir Archivo{% endblock %}
 
 {% block content %}
 <div class="columns is-centered mt-5">
     <div class="column is-half">
-        <div class="box is-justify-content-center has-text-centered">
-            <h1 class="title">Sube tu Archivo</h1>
+        <div class="box has-text-centered has-shadow">
+            <h1 class="title has-text-primary">Sube tu Archivo</h1>
 
             <form 
                 hx-post="upload/"
@@ -16,7 +16,7 @@
                 id="upload-form">
                 {% csrf_token %}
                 
-                <div class="file is-centered">
+                <div class="file has-name is-centered">
                     <label class="file-label">
                         <input class="file-input" type="file" name="file" hx-trigger="change" hx-target="#file-name" hx-swap="outerHTML" required>
                         <span class="file-cta">
@@ -39,7 +39,6 @@
                 <button class="button is-primary mt-4" type="submit">Subir</button>
             </form>
 
-            <!-- Lugar para mostrar el resultado de la subida -->
             <div id="upload-result" class="mt-4"></div>
         </div>
     </div>
