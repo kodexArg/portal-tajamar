@@ -6,28 +6,22 @@ import os
 env = Env()
 env.read_env()
 
-# Activamos el DEBUG temporalmente para obtener más detalles
 DEBUG = env.bool('DEBUG', default=False)
 
-# Permitimos cualquier host en este entorno de staging
 ALLOWED_HOSTS = ['*']
 
-# Habilitamos logs de que estamos en staging
 logger.info("[INFO] Usando configuración de staging.py")
 
-# Configuración de archivos estáticos y de medios
 if DEBUG:
-    # Modo DEBUG - Utilizando recursos locales
     STATIC_ROOT = BASE_DIR / 'staticfiles'
     STATIC_URL = '/static/'
     STATICFILES_DIRS = [BASE_DIR / 'core/static']
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / 'media'
-    logger.info(f"Using DEBUG MODE:\n - MEDIA_ROOT={MEDIA_ROOT}\n - STATICFILES_DIRS={STATICFILES_DIRS}\n")
-
+    
+    logger.debug(f"Using DEBUG MODE:\n - MEDIA_ROOT={MEDIA_ROOT}\n - STATICFILES_DIRS={STATICFILES_DIRS}")
 else:
-    # Configuración de producción en S3
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
@@ -47,8 +41,10 @@ else:
             },
         },
     }
+    
+    logger.debug(f"STATIC_URL={STATIC_URL}")
+    logger.debug(f"STORAGES={STORAGES}")
 
-# Configuración de la base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -60,19 +56,17 @@ DATABASES = {
     }
 }
 
-# Parámetros de almacenamiento S3
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',  # Cache de un día
+    'CacheControl': 'max-age=86400',
 }
 
-# Configuración del logging para capturar más detalles durante DEBUG
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
             'level': 'DEBUG',
-            'class': 'logging.StreamHandler',  # Envia logs a la consola estándar
+            'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
@@ -88,7 +82,5 @@ LOGGING = {
         },
     },
 }
-
-
 
 logger.info("[INFO] Finalizó la carga de staging.py con éxito")
