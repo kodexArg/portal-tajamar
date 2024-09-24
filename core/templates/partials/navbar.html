@@ -1,33 +1,23 @@
 <!-- templates/partials/navbar.html -->
-<nav class="navbar is-fixed-top has-shadow">
-    <div class="navbar-brand">
-        <span class="navbar-item is-size-3 has-text-weight-bold has-text-primary">
-            TAJAMAR
-        </span>
-    </div>
-    <div class="navbar-menu">
-        <div class="navbar-end">
-            <div class="navbar-item">
-                {% if user.is_authenticated %}
-                    <span class="navbar-item has-text-weight-semibold">
-                        Bienvenido, {{ user.username }}
-                    </span>
-                    <div class="buttons">
-                        <a href="{% url 'account_logout' %}" class="button is-light">
-                            Log Out
-                        </a>
-                    </div>
-                {% else %}
-                    <div class="buttons">
-                        <a href="{% url 'account_login' %}" class="button is-light">
-                            Log In
-                        </a>
-                        <a href="{% url 'account_signup' %}" class="button is-primary">
-                            Sign Up
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
+<nav class="navbar is-fixed-top">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <span class="navbar-title">
+                TAJAMAR
+            </span>
+        </div>
+        <div class="navbar-menu">
+            {% if user.is_authenticated %}
+                <span class="navbar-user">Bienvenido, {{ user.username }}</span>
+                <div class="navbar-buttons">
+                    <a href="{% url 'account_logout' %}" class="navbar-btn">Log Out</a>
+                </div>
+            {% else %}
+                <div class="navbar-buttons">
+                    <a href="{% url 'account_login' %}" class="navbar-btn">Log In</a>
+                    <a href="{% url 'account_signup' %}" class="navbar-btn">Sign Up</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>

@@ -1,24 +1,238 @@
-/* base.css - Minimal CSS Reset */
+/* Minimal CSS Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente palo seco */
 }
 
-
-.text-balanced {
-    text-align: justify;
-    text-wrap: balance;
-  }
-  
-  .navbar.is-fixed-top + .section {
-    margin-top: 80px; /* Ajusta según la altura de la navbar */
-}
-.navbar.is-fixed-top {
-    top: 0;
-    z-index: 1000;
+/* Global Styles */
+body {
+    line-height: 1.6;
+    background-color: #121212; /* Fondo oscuro */
+    color: #e0e0e0; /* Texto claro para buen contraste */
+    padding: 0;
+    margin: 0;
 }
 
-.section {
-    padding-top: 100px; /* Ajustar según la altura de la navbar */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: #90caf9; /* Color de enlaces (azul claro) */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #333;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #90caf9;
+}
+
+.navbar-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navbar-buttons {
+    display: flex;
+}
+
+.navbar-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #90caf9;
+    color: #121212;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-btn:hover {
+    background-color: #64b5f6;
+}
+
+.navbar-user {
+    font-weight: bold;
+    margin-right: 20px;
+    color: #e0e0e0;
+}
+
+/* Layout Styles */
+.main-section {
+    padding: 40px 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1f1f1f; /* Fondo oscuro */
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4); /* Sombra oscura */
+}
+
+/* Input y Formulario */
+input, textarea, button, select {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+input:focus, textarea:focus, button:focus, select:focus {
+    outline: none;
+    border-color: #90caf9;
+    box-shadow: 0 0 5px rgba(144, 202, 249, 0.5);
+}
+
+button {
+    background-color: #90caf9;
+    color: #121212; /* Texto oscuro en botones */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #64b5f6;
+}
+
+/* File input */
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #90caf9;
+    color: #121212; /* Texto oscuro */
+    border-radius: 4px;
+    border: 1px solid #333;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none; /* Oculta el input real */
+}
+
+.custom-file-upload:hover {
+    background-color: #64b5f6;
+    color: #ffffff; /* Texto blanco en hover */
+}
+
+.file-cta {
+    cursor: pointer;
+    color: #121212; /* Asegura que el texto sea oscuro y visible */
+}
+
+/* Submit Button */
+.submit-btn {
+    margin-top: 1rem;
+    cursor: pointer;
+    background-color: #90caf9;
+    color: #121212; /* Texto oscuro */
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #64b5f6;
+}
+
+/* Layouts */
+.box-layout {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #1f1f1f;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-layout {
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.content-centered {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.content-half {
+    width: 50%;
+}
+
+.box-centered {
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+}
+
+/* Notifications */
+.notification-error {
+    color: #f44336; /* Rojo claro */
+    text-align: center;
+}
+
+.notification-success {
+    color: #4caf50; /* Verde claro */
+    text-align: center;
+}
+
+/* Result Container */
+.result-container {
+    margin-top: 20px;
+}
+
+/* Image Container */
+.image-container {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 1rem;
+}
+
+.image-file {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
